@@ -28,13 +28,15 @@ Implementar e validar um sistema de reservas de salas com regras de cadastro de 
 - `relatorio_final.md` / `relatorio_final.pdf` — relatório final
 
 ## 4. Plano de Testes Funcionais
-| Caso | Objetivo | Entrada | Resultado Esperado | Resultado Obtido | Status |
-|------|----------|---------|--------------------|------------------|--------|
-| TC01 | Cadastro de aluno com sucesso | Matrícula nova, nome e e-mail | Aluno cadastrado e presente no sistema | Aluno cadastrado com sucesso | Aprovado |
-| TC02 | Cadastro duplicado rejeitado | Mesma matrícula duas vezes | Lançar erro `AlunoJaCadastradoError` | Erro lançado corretamente | Aprovado |
-| TC03 | Consultar salas disponíveis sem reservas | Data e horário livre | Todas as salas disponíveis | Todas as salas retornadas | Aprovado |
-| TC04 | Sala reservada não aparece disponível | Reserva de uma sala em horário específico | Sala ocupada omitida da lista | Sala omitida conforme esperado | Aprovado |
-| TC05 | Reserva bem-sucedida | Aluno cadastrado e sala livre | Reserva criada com ID e dados corretos | Reserva criada corretamente | Aprovado |
+O plano abaixo reúne os casos de teste funcionais do sistema, com os dados de entrada, os resultados esperados e os resultados obtidos.
+
+| Identificador | Objetivo do teste | Entrada | Resultado Esperado | Resultado Obtido (simulado ou real) | Status |
+|---------------|-------------------|---------|--------------------|---------------------------------------|--------|
+| TC01 | Cadastrar um novo aluno com sucesso | Matrícula nova, nome e e-mail válidos | O aluno é cadastrado e aparece no sistema | Aluno cadastrado com sucesso | Aprovado |
+| TC02 | Impedir cadastro duplicado | Mesma matrícula em um segundo cadastro | O sistema rejeita o cadastro e informa erro | Erro lançado corretamente | Aprovado |
+| TC03 | Consultar salas disponíveis sem reservas | Data e horário livre | Todas as salas aparecem como disponíveis | Lista de salas retornada corretamente | Aprovado |
+| TC04 | Impedir reserva em horário já ocupado | Reserva em um horário previamente reservado | A reserva deve ser rejeitada e a sala não deve ficar disponível | Reserva bloqueada corretamente | Aprovado |
+| TC05 | Realizar uma reserva válida | Aluno cadastrado, sala livre e horário disponível | A reserva é criada com sucesso | Reserva criada corretamente | Aprovado |
 
 ## 5. Testes Automatizados
 O arquivo de testes é `tests/test_sistema_reservas.py`. Ele contém os seguintes casos automatizados:
@@ -65,6 +67,18 @@ Os testes foram executados localmente com pytest.
   - `python -m pytest --cov=src --cov-report=term-missing`
 - Saída exibida no terminal confirma os 10 testes aprovados.
 - A cobertura foi gerada para o pacote `src`.
+- Trecho de código de um teste automatizado:
+
+```python
+def test_realizar_reserva_com_sucesso(sistema):
+    """TC05: aluno cadastrado consegue reservar uma sala livre."""
+    sistema.cadastrar_aluno("2025001", "Vívian Silva", "vivian@email.com")
+    reserva = sistema.realizar_reserva("2025001", "S01", date(2026, 7, 1), time(14, 0))
+
+    assert reserva.codigo_sala == "S01"
+    assert reserva.matricula_aluno == "2025001"
+    assert reserva.id_reserva == 1
+```
 
 ## 8. Cobertura de testes e análise
 - Cobertura total do pacote `src`: **98%**
