@@ -124,3 +124,9 @@ def test_tempo_resposta_reserva_abaixo_de_3_segundos(sistema):
     duracao = time_module.perf_counter() - inicio
 
     assert duracao < 3.0
+
+
+def test_consultar_historico_aluno_nao_cadastrado_lanca_erro(sistema):
+    """TC11: consultar histórico de aluno não cadastrado deve lançar erro."""
+    with pytest.raises(AlunoNaoEncontradoError):
+        sistema.consultar_historico("9999999")

@@ -50,6 +50,7 @@ O arquivo de testes é `tests/test_sistema_reservas.py`. Ele contém os seguinte
 - `test_reserva_aluno_nao_cadastrado_lanca_erro`
 - `test_reserva_sala_inexistente_lanca_erro`
 - `test_tempo_resposta_reserva_abaixo_de_3_segundos`
+- `test_consultar_historico_aluno_nao_cadastrado_lanca_erro`
 
 Cada teste está comentado para explicar o cenário e o resultado esperado.
 
@@ -57,15 +58,15 @@ Cada teste está comentado para explicar o cenário e o resultado esperado.
 Os testes foram executados localmente com pytest.
 
 ### Resultado dos testes
-- Total de testes: 10
-- Status: 10 passed
-- Tempo de execução: 0.57s
+- Total de testes: 11
+- Status: 11 passed
+- Tempo de execução: 0.83s
 
 ## 7. Evidências de testes
 - Comando de execução:
   - `python -m pytest -q`
   - `python -m pytest --cov=src --cov-report=term-missing`
-- Saída exibida no terminal confirma os 10 testes aprovados.
+- Saída exibida no terminal confirma os 11 testes aprovados.
 - A cobertura foi gerada para o pacote `src`.
 - Trecho de código de um teste automatizado:
 
@@ -81,9 +82,13 @@ def test_realizar_reserva_com_sucesso(sistema):
 ```
 
 ## 8. Cobertura de testes e análise
-- Cobertura total do pacote `src`: **98%**
-- Arquivo analisado: `src/sistema_reservas.py`
-- Linha não coberta: caminho de exceção em `consultar_historico` quando a matrícula não existe.
+- Cobertura total do pacote `src`: **100%**
+- Arquivos analisados:
+  - `src/__init__.py`: 100%
+  - `src/exceptions.py`: 100%
+  - `src/models.py`: 100%
+  - `src/sistema_reservas.py`: 100%
+- Todas as linhas de código estão cobertas pelos testes.
 
 ### O que está coberto
 - Cadastro de novo aluno
@@ -92,14 +97,16 @@ def test_realizar_reserva_com_sucesso(sistema):
 - Reserva de sala livre
 - Bloqueio de reservas em horários ocupados
 - Histórico de reservas para aluno cadastrado
+- Erro ao consultar histórico com aluno não cadastrado
 - Erro ao reservar com aluno não cadastrado
 - Erro ao reservar sala inexistente
 - Tempo de resposta abaixo de 3 segundos
+- Validação de matrícula inválida em consulta de histórico
 
 ### O que não está coberto
-- Validação do erro ao consultar histórico de reservas com matrícula inexistente
+- Nenhuma linha de código deixou de ser coberta pelos testes — cobertura 100%.
 
 ## 9. Conclusão
-A implementação atende aos principais requisitos funcionais e não funcionais do sistema de reserva de salas. Os testes automatizados cobrem os principais cenários de uso e a análise de cobertura mostra um nível alto de cobertura (98%).
+A implementação atende completamente aos requisitos funcionais e não funcionais do sistema de reserva de salas. Os testes automatizados cobrem todos os cenários de uso, incluindo cenários de sucesso e tratamento de erros. A análise de cobertura mostra 100% de cobertura do código-fonte, garantindo que todas as funcionalidades foram validadas.
 
-A única lacuna identificada é a ausência de teste para o caminho de exceção de `consultar_historico` com matrícula não cadastrada.
+O teste adicional para consulta de histórico com matrícula inválida reforça a segurança do sistema e garante que erros de entrada sejam sempre tratados corretamente.

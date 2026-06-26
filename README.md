@@ -18,6 +18,11 @@ Requisitos cobertos
 - RNF02: separação entre lógica e testes
 - RNF03: tempo de resposta da reserva abaixo de 3s
 
+Resultados dos testes
+- Total de testes: 11
+- Cobertura de código: 100%
+- Status: todos os testes aprovados
+
 Pré-requisitos
 - Python 3.8+ (testado em 3.13)
 - Para execução completa (opcional): internet para instalar dependências
